@@ -11,6 +11,7 @@ Get Tableau Public's Viz of the Day as a slack message on weekdays.
 
 ## Using a Cloud Function on GCP
 I wanted to make mine fully automated, so I chose to deploy the main.py file in this repo as a Cloud Function on Google Cloud.
+
 4. Create a Cloud Function with:
   - Trigger: HTTP
   - Slack Bot User OAuth Access Token as a Runtime Environment Variable 'SLACK_TOKEN'
@@ -24,6 +25,7 @@ I wanted to make mine fully automated, so I chose to deploy the main.py file in 
 
 ## Using a Lambda Function on AWS
 If you prefer using AWS over GCP, I also included AWS-Lambda-Function_votd-slack.py file in this repo to use as a Lambda Function on AWS. (note: instead of using Botocore, you will need to bundle dependencies with your Lambda function. I found this tutorial quite helpful: https://www.youtube.com/watch?v=rDbxCeTzw_k)
+
 4. Create a Lambda Function with:
   - Author from scratch
   - Runtime: Python 3.7
