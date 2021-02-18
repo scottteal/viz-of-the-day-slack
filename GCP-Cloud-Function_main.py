@@ -3,7 +3,7 @@ import json
 import os
 
 SLACK_TOKEN = os.environ['SLACK_TOKEN']
-SLACK_CHANNEL = '#viz-of-the-day-test'
+SLACK_CHANNEL = '#viz-of-the-day'
 
 votd_url = "https://public.tableau.com/s/api/votd"
 response = requests.get(votd_url).json()
@@ -46,5 +46,6 @@ def post_votd_to_slack(request):
     return requests.post('https://slack.com/api/chat.postMessage', {
         'token': SLACK_TOKEN,
         'channel': SLACK_CHANNEL,
-        'blocks': json.dumps(blocks) if blocks else None
+        'blocks': json.dumps(blocks) if blocks else None,
+        'text': title
     }).json()
