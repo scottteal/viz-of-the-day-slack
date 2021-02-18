@@ -4,7 +4,7 @@ import os
 import re
 
 SLACK_TOKEN = os.environ['SLACK_TOKEN']
-SLACK_CHANNEL = '#viz-of-the-day-test'
+SLACK_CHANNEL = '#viz-of-the-day'
 
 def cleanhtml(raw_html):
   cleanr = re.compile('<.*?>')
@@ -17,6 +17,8 @@ title = response["items"][0]["title"]
 author = response["items"][0]["authorName"]
 image_src = response["items"][0]["screenshot"]
 url_path = response["items"][0]["gallerySlug"]
+view_count = response["items"][0]["workbook"]["viewCount"]
+num_favorites = response["items"][0]["workbook"]["numberOfFavorites"]
 
 #need to clean the html out of the description field
 description = response["items"][0]["description"]
@@ -27,7 +29,7 @@ blocks = [{
             "type": "section",
              "text": {
                  "type": "mrkdwn",
-                 "text": '*' + title + '*\n ' + author + '\n ' + description
+                 "text": '*' + title + '*\nby ' + author + '\n:eyes: ' + str(f'{view_count:,}') + ' views\n:star: ' + str(f'{num_favorites:,}') + ' favorites\n' + description
          }
         },
         {
@@ -57,5 +59,6 @@ def post_votd_to_slack(event, context):
     return requests.post('https://slack.com/api/chat.postMessage', {
         'token': SLACK_TOKEN,
         'channel': SLACK_CHANNEL,
-        'blocks': json.dumps(blocks) if blocks else None
+        'blocks': json.dumps(blocks) if blocks else None,
+        'text': title
     }).json()
